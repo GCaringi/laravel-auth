@@ -15,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.posts.index');
+        $posts = Post::all();
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -43,7 +44,7 @@ class PostController extends Controller
         $newPost->published = isset($data['published']); 
         $newPost->save();
 
-        return redirect(route('admin.home'));
+        return redirect(route('admin.posts.index'));
     }
 
     /**
