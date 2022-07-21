@@ -38,6 +38,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:65535',
+            'published' => 'sometimes|accepted',
+        ]);
+
         $data = $request->all();
         $newPost = new Post();
         $newPost->fill($data);
@@ -78,12 +84,18 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:65535',
+            'published' => 'sometimes|accepted',
+        ]);
+
         $data = $request->all();
         $post->fill($data);
         $post->published = isset($data['published']);
         $post->save();
 
-        return redirect(route('admin.home'));
+        return redirect(route('admin.posts.index'));
     }
 
     /**
